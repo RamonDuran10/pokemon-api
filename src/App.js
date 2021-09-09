@@ -7,6 +7,7 @@ import {getPokemons, getPokemosData} from "./Api";
 
 function App() {
   const [pokemons, setPokemos] = useState([]);
+  const [pokemonTable, setPokemonTable] =useState([])
   const [page, setPage] = useState(0);
   const [total, setTotal] = useState (0);
   const [loading, setLoading] = useState(true)
@@ -22,6 +23,7 @@ function App() {
       const results = await Promise.all(promises)
       setPokemos(results);
       setLoading(false)
+      setPokemonTable(results)
       setTotal(Math.ceil(data.count /27))
     }catch(err){}
   }
@@ -34,7 +36,10 @@ function App() {
     <div >
       <Navbar/>
       <div>
-        <SearchBar/>
+        <SearchBar 
+        pokemonTable={pokemonTable}
+        setPokemos={setPokemos}
+        />
         <PokemonTable
           pokemons={pokemons}
           page={page}

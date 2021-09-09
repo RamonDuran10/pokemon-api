@@ -1,24 +1,26 @@
 import React, {useState} from 'react';
-import {searchPokemon} from "./Api";
+
 import  "./styles.css";
 
 
 function SearchBar(props) {
-    
+    const {pokemonTable, setPokemos} = props;
 
     const [search, setSearch] = useState('');
-    const [pokemon, setPokemon] = useState('');
 
     const handleSearch =(e) =>{
-        
+        filtrar(e.target.value)
         setSearch(e.target.value);
     }
-
-    const handleclickSearch = async (e) => {
-        const data = await searchPokemon(search);
-        setPokemon(data)
-        console.log(handleclickSearch)
+    const filtrar = (terminoBusqueda) => {
+     const resultBusqueda = pokemonTable.filter((pokemon) => {
+         if(pokemon.name.toString().toLowerCase().includes(terminoBusqueda.toLowerCase())){
+             return pokemon;
+         }
+     })
+     setPokemos(resultBusqueda)
     }
+   
 
     return (
         <div className="container">
@@ -26,11 +28,9 @@ function SearchBar(props) {
                 <input 
                 placeholder="Search Pokemon"
                 onChange={handleSearch}
+                value={search}
                 />
             </div> 
-            <div className="search-btn">
-                <button onClick={handleclickSearch}>Search</button>
-            </div>
         </div>
     )
 }
